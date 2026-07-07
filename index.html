@@ -1,634 +1,818 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentación Estratégica: Proyecto Arcana - BL Real Estate</title>
+    <title>Estrategia Operativa y de Integración: BL Real Estate</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Playfair Display & Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- FontAwesome para Iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconografía de Negocios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
                         brand: {
-                            gold: '#D4AF37',
-                            'gold-dark': '#AA7C11',
-                            'gold-light': '#F3E5AB',
-                            slate: '#0F172A',
-                            dark: '#020617',
-                            light: '#F8FAFC',
-                            accent: '#1E293B'
+                            navy: '#020617',      /* Fondo ultra oscuro */
+                            slate: '#0f172a',     /* Elementos y tarjetas */
+                            border: '#1e293b',    /* Bordes sutiles */
+                            gold: '#D4AF37',      /* Accent Dorado Premium */
+                            goldDark: '#B8860B',  /* Dorado de contraste */
+                            goldLight: '#F3E5AB', /* Dorado claro */
+                            emerald: '#10b981',   /* Conversiones positivas */
+                            rose: '#f43f5e'       /* Pérdidas / Alertas */
                         }
                     }
                 }
             }
         }
     </script>
+
     <style>
+        /* Estilos para barras de scroll personalizadas */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1e293b;
+            background: #0f172a;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #d4af37;
-            border-radius: 3px;
+            background: #D4AF37;
+            border-radius: 4px;
         }
-        .tab-transition {
-            transition: all 0.3s ease-in-out;
+        
+        /* Animaciones para cambio de slide */
+        .fade-in-slide {
+            animation: fadeIn 0.4s ease-out forwards;
         }
-        .node-active {
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Enfoque del nodo activo en el Blueprint */
+        .blueprint-active {
             border-color: #D4AF37 !important;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+            background-color: rgba(212, 175, 55, 0.05) !important;
         }
     </style>
 </head>
-<body class="bg-brand-dark text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-brand-navy text-slate-100 font-sans min-h-screen flex flex-col antialiased">
 
-    <!-- Header / Barra de Navegación -->
-    <header class="border-b border-slate-800 bg-brand-slate sticky top-0 z-50 px-6 py-4">
+    <!-- CABECERA DE CONTROL CORPORATIVO -->
+    <header class="bg-brand-slate border-b border-brand-border sticky top-0 z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <!-- Logo e Identidad -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-tr from-brand-gold-dark to-brand-gold flex items-center justify-center rounded-lg shadow-lg">
-                    <span class="text-brand-dark font-bold font-serif text-xl">BL</span>
+                <div class="w-9 h-9 bg-gradient-to-tr from-brand-goldDark to-brand-gold flex items-center justify-center rounded-lg shadow-md">
+                    <span class="text-brand-navy font-display font-extrabold text-lg">BL</span>
                 </div>
                 <div>
-                    <h1 class="font-serif text-lg font-semibold tracking-wide text-white">BL REAL ESTATE</h1>
-                    <p class="text-xs text-brand-gold tracking-widest uppercase">Estrategia Comercial Premium</p>
+                    <h1 class="font-display font-bold text-base text-white tracking-wide">BL REAL ESTATE</h1>
+                    <p class="text-[10px] text-brand-gold tracking-widest uppercase font-semibold">Sistematización Comercial Integrada</p>
                 </div>
             </div>
+
+            <!-- Selector de Vista (Presentación vs Lectura) -->
+            <div class="flex bg-brand-navy p-1 rounded-xl border border-brand-border gap-1">
+                <button id="view-mode-slide" onclick="setMode('slide')" class="px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all bg-brand-gold text-brand-navy shadow">
+                    <i class="fa-solid fa-desktop"></i> Modo Presentación
+                </button>
+                <button id="view-mode-scroll" onclick="setMode('scroll')" class="px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-file-lines"></i> Lectura Continua
+                </button>
+            </div>
             
-            <div class="text-center md:text-right">
-                <span class="bg-amber-500/10 text-brand-gold border border-brand-gold/20 text-xs px-3 py-1 rounded-full uppercase font-semibold tracking-wider">
-                    Ecosistema Comercial Unificado (Multiproyecto)
-                </span>
-                <p class="text-[10px] text-slate-400 mt-1">Archer · Arcana · Parnaso · Las Colinas · Torrento</p>
+            <!-- Estado Operativo -->
+            <div class="hidden lg:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
+                <span class="w-2 h-2 bg-brand-emerald rounded-full animate-pulse"></span>
+                <span class="text-[10px] font-bold text-brand-emerald uppercase tracking-wider">Integración Zoho/Salesforce Activa</span>
             </div>
         </div>
     </header>
 
-    <!-- Contenedor Principal (Dashboard Layout) -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
-        <!-- Sidebar de Navegación de la Presentación -->
-        <aside class="lg:col-span-1 bg-brand-slate rounded-2xl border border-slate-800 p-4 flex flex-col gap-2">
-            <p class="text-xs font-semibold tracking-wider text-slate-400 uppercase px-3 mb-2">Secciones del Proceso</p>
-            <nav class="flex flex-col gap-1 flex-grow">
-                <button onclick="switchTab('tab-objetivos')" id="btn-tab-objetivos" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-sm transition-all text-white bg-slate-800/80 border-l-4 border-brand-gold">
-                    <i class="fa-solid fa-bullseye text-brand-gold w-5"></i>
-                    <span>1. Objetivos BL</span>
-                </button>
-                <button onclick="switchTab('tab-recursos')" id="btn-tab-recursos" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-sm transition-all text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                    <i class="fa-solid fa-list-check w-5 text-slate-500"></i>
-                    <span>2. Recursos y Limitantes</span>
-                </button>
-                <button onclick="switchTab('tab-estrategia')" id="btn-tab-estrategia" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-sm transition-all text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                    <i class="fa-solid fa-circle-nodes w-5 text-slate-500"></i>
-                    <span>3. Integración & Segmentos</span>
-                </button>
-                <button onclick="switchTab('tab-mitigacion')" id="btn-tab-mitigacion" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-sm transition-all text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                    <i class="fa-solid fa-shield-halved w-5 text-slate-500"></i>
-                    <span>4. Reglas & Mitigación</span>
-                </button>
-                <button onclick="switchTab('tab-blueprint')" id="btn-tab-blueprint" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-sm transition-all text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                    <i class="fa-solid fa-map-location-dot w-5 text-slate-500"></i>
-                    <span>5. Blueprint Arcana / Archer</span>
-                </button>
-            </nav>
-
-            <!-- Widget Informativo del Proyecto -->
-            <div class="mt-6 p-4 bg-brand-dark/50 border border-slate-800 rounded-xl">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs text-brand-gold font-bold uppercase tracking-widest">Ficha Técnica</span>
-                    <span class="bg-emerald-500/10 text-emerald-400 text-[10px] px-2 py-0.5 rounded-full">Preventa Cero</span>
-                </div>
-                <div class="space-y-2 text-xs">
-                    <div class="flex justify-between"><span class="text-slate-400">Rango Archer:</span> <span class="font-semibold text-white">$2.7M - $6M</span></div>
-                    <div class="flex justify-between"><span class="text-slate-400">Promedio Zona:</span> <span class="font-semibold text-white">$4.0 MDP</span></div>
-                    <div class="flex justify-between"><span class="text-slate-400">Sotanos Subt.:</span> <span class="font-semibold text-white">5 Niveles</span></div>
-                    <div class="flex justify-between"><span class="text-slate-400">Ubicación:</span> <span class="font-semibold text-white">Arcos Vallarta</span></div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Contenedor de Diapositivas / Secciones del Dashboard -->
-        <section class="lg:col-span-3 bg-brand-slate rounded-2xl border border-slate-800 p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden min-h-[600px]">
+    <!-- MODO PRESENTACIÓN: ESTRUCTURA DE SLIDES -->
+    <main id="presentation-layout" class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-6xl aspect-[16/9] bg-brand-slate rounded-2xl border border-brand-border p-8 md:p-12 flex flex-col justify-between shadow-2xl relative overflow-hidden">
             
-            <!-- Decoración de Fondo Sutil -->
-            <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+            <!-- Decoraciones de fondo sutiles -->
+            <div class="absolute top-0 right-0 w-80 h-80 bg-brand-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <!-- ================= SECCIÓN 1: OBJETIVOS ================= -->
-            <div id="tab-objetivos" class="tab-content block space-y-6">
-                <div class="border-b border-slate-800 pb-4">
-                    <span class="text-xs text-brand-gold uppercase tracking-widest font-bold">Dirección de Operaciones</span>
-                    <h2 class="font-serif text-3xl font-semibold text-white mt-1">1. Objetivos del Nuevo Journey "BL Real Estate"</h2>
-                    <p class="text-sm text-slate-400 mt-2">Sistematización comercial unificada para todos los desarrollos, diseñada para eliminar la pérdida de prospectos y optimizar la conversión.</p>
+            <!-- Cabecera del slide activo -->
+            <div class="flex justify-between items-center border-b border-brand-border/60 pb-4 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-brand-gold text-xs font-bold uppercase tracking-wider" id="slide-category">MÓDULO I</span>
+                    <span class="text-slate-600">|</span>
+                    <span class="text-slate-400 text-xs font-semibold" id="slide-subheader">Ecosistema Corporativo de Ventas</span>
                 </div>
+                <div class="text-slate-400 text-xs font-mono font-bold" id="slide-number">01 / 10</div>
+            </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-5 bg-brand-dark/40 border border-slate-800 rounded-xl hover:border-brand-gold/30 transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center mb-4">
-                            <i class="fa-solid fa-bolt text-brand-gold text-lg"></i>
-                        </div>
-                        <h3 class="text-base font-semibold text-white mb-2">Velocidad de Respuesta Instantánea</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Pasar de tiempos de espera de horas a un contacto en <strong>segundos (24/7)</strong> gracias a la IA, evitando que los leads calientes de redes se enfríen.</p>
-                    </div>
+            <!-- Contenedor dinámico de diapositiva -->
+            <div id="slide-content-viewport" class="flex-grow flex flex-col justify-center fade-in-slide">
+                <!-- El contenido se inyecta vía Javascript -->
+            </div>
 
-                    <div class="p-5 bg-brand-dark/40 border border-slate-800 rounded-xl hover:border-brand-gold/30 transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center mb-4">
-                            <i class="fa-solid fa-filter text-brand-gold text-lg"></i>
-                        </div>
-                        <h3 class="text-base font-semibold text-white mb-2">Filtro de Calificación de Leads</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Descartar prospectos sin presupuesto o sin perfil crediticio viable antes de que lleguen al asesor humano. El equipo comercial solo recibe citas viables y pre-perfiladas.</p>
-                    </div>
-
-                    <div class="p-5 bg-brand-dark/40 border border-slate-800 rounded-xl hover:border-brand-gold/30 transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center mb-4">
-                            <i class="fa-solid fa-users text-brand-gold text-lg"></i>
-                        </div>
-                        <h3 class="text-base font-semibold text-white mb-2">Enfoque Humano en el Cierre</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Liberar al asesor de tareas repetitivas de prospección. El humano entra exactamente donde aporta mayor valor: la <strong>relación consultiva, la visita al showroom y la firma</strong>.</p>
-                    </div>
-
-                    <div class="p-5 bg-brand-dark/40 border border-slate-800 rounded-xl hover:border-brand-gold/30 transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center mb-4">
-                            <i class="fa-solid fa-chart-pie text-brand-gold text-lg"></i>
-                        </div>
-                        <h3 class="text-base font-semibold text-white mb-2">Transparencia Operativa Absoluta</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Trazabilidad completa en Zoho CRM. Cada etapa del embudo se registra con datos duros, eliminando debates de "los leads no sirven" contra "no dan seguimiento".</p>
-                    </div>
+            <!-- Ficha Técnica Permanente de Productos (Footer) -->
+            <div class="border-t border-brand-border/60 pt-4 mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-[11px] bg-brand-navy/40 p-3 rounded-xl">
+                <div>
+                    <span class="text-brand-gold font-bold uppercase tracking-wider block">🏢 ARCHER (Premium)</span>
+                    <span class="text-slate-400">Rango: $2.7M - $6M | 5 Sótanos | Arcos Vallarta</span>
                 </div>
-
-                <!-- Simulación Corta -->
-                <div class="bg-amber-500/5 border border-brand-gold/20 rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="text-2xl text-brand-gold"><i class="fa-solid fa-wallet"></i></div>
-                        <div>
-                            <h4 class="text-sm font-semibold text-white">Sinergias Corporativas Activas</h4>
-                            <p class="text-[11px] text-slate-400">Este embudo estandarizado unifica la fuerza de ventas de Archer, Arcana, Parnaso, Las Colinas y Torrento bajo las mismas reglas operativas de BL Real Estate.</p>
-                        </div>
-                    </div>
+                <div>
+                    <span class="text-brand-emerald font-bold uppercase tracking-wider block">🔑 ARCANA (Entrega / Prev)</span>
+                    <span class="text-slate-400">Rango: $1.7M - $2.2M | 1 Sótano | El Álamo</span>
+                </div>
+                <div class="hidden md:block">
+                    <span class="text-slate-400 uppercase font-bold tracking-wider block">📊 Regla de Oro</span>
+                    <span class="text-slate-500">Única fuente de verdad: Zoho CRM</span>
+                </div>
+                <div class="hidden md:block text-right">
+                    <span class="text-slate-400 uppercase font-bold tracking-wider block">⚡ Tiempo SLA</span>
+                    <span class="text-brand-rose">Reasignación automática en 12h</span>
                 </div>
             </div>
 
-            <!-- ================= SECCIÓN 2: RECURSOS Y LIMITANTES ================= -->
-            <div id="tab-recursos" class="tab-content hidden space-y-6">
-                <div class="border-b border-slate-800 pb-4">
-                    <span class="text-xs text-brand-gold uppercase tracking-widest font-bold">Diagnóstico de Activos</span>
-                    <h2 class="font-serif text-3xl font-semibold text-white mt-1">2. Recursos y Limitantes Actuales</h2>
-                    <p class="text-sm text-slate-400 mt-2">Estructuración técnica del ecosistema comercial respetando la Regla de Oro corporativa de BL.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Recursos Disponibles -->
-                    <div class="space-y-4">
-                        <h3 class="text-sm font-bold tracking-wider text-emerald-400 uppercase flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check"></i> Activos de Operación
-                        </h3>
-                        
-                        <div class="space-y-3">
-                            <div class="p-3 bg-emerald-950/20 border border-emerald-900/40 rounded-xl flex gap-3">
-                                <span class="text-emerald-400 text-sm mt-0.5"><i class="fa-solid fa-robot"></i></span>
-                                <div>
-                                    <h4 class="text-xs font-semibold text-white">Salesforce Agentforce</h4>
-                                    <p class="text-[11px] text-slate-400">Inteligencia Artificial encargada de la velocidad y primer filtro 24/7 en canales de mensajería instantánea.</p>
-                                </div>
-                            </div>
-                            <div class="p-3 bg-emerald-950/20 border border-emerald-900/40 rounded-xl flex gap-3">
-                                <span class="text-emerald-400 text-sm mt-0.5"><i class="fa-solid fa-database"></i></span>
-                                <div>
-                                    <h4 class="text-xs font-semibold text-white">Zoho CRM (Fuente Única de Verdad)</h4>
-                                    <p class="text-[11px] text-slate-400"><strong>Regla de Oro:</strong> Todo lead entra y se trabaja estrictamente dentro de Zoho, no en WhatsApp personales.</p>
-                                </div>
-                            </div>
-                            <div class="p-3 bg-emerald-950/20 border border-emerald-900/40 rounded-xl flex gap-3">
-                                <span class="text-emerald-400 text-sm mt-0.5"><i class="fa-solid fa-users-viewfinder"></i></span>
-                                <div>
-                                    <h4 class="text-xs font-semibold text-white">2 Recepciones (Proyecto A y B)</h4>
-                                    <p class="text-[11px] text-slate-400">Estructura para realizar llamadas de control de calidad cruzadas y confirmación del no-show.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Limitantes Críticas -->
-                    <div class="space-y-4">
-                        <h3 class="text-sm font-bold tracking-wider text-rose-400 uppercase flex items-center gap-2">
-                            <i class="fa-solid fa-circle-exclamation"></i> Limitantes Técnicas
-                        </h3>
-                        
-                        <div class="space-y-3">
-                            <div class="p-3 bg-rose-950/20 border border-rose-900/40 rounded-xl flex gap-3">
-                                <span class="text-rose-400 text-sm mt-0.5"><i class="fa-solid fa-key"></i></span>
-                                <div>
-                                    <h4 class="text-xs font-semibold text-white">Licencias Salesforce Acotadas (2)</h4>
-                                    <p class="text-[11px] text-slate-400">Límite de accesos que obliga a mantener la operación diaria del asesor concentrada 100% en Zoho CRM.</p>
-                                </div>
-                            </div>
-                            <div class="p-3 bg-rose-950/20 border border-rose-900/40 rounded-xl flex gap-3">
-                                <span class="text-rose-400 text-sm mt-0.5"><i class="fa-solid fa-calendar-days"></i></span>
-                                <div>
-                                    <h4 class="text-xs font-semibold text-white">Sincronización Crítica de Agendas</h4>
-                                    <p class="text-[11px] text-slate-400">La IA requiere ver la disponibilidad real de los asesores en Zoho en tiempo real para evitar duplicados.</p>
-                                </div>
-                            </div>
-                            <div class="p-3 bg-rose-950/20 border border-rose-900/40 rounded-xl flex gap-3">
-                                <span class="text-rose-400 text-sm mt-0.5"><i class="fa-solid fa-clock-rotate-left"></i></span>
-                                <div>
-                                    <h4 class="text-xs font-semibold text-white">SLA Estricto de 1 Hora</h4>
-                                    <p class="text-[11px] text-slate-400">Los prospectos no atendidos inmediatamente pierden hasta 10 veces su efectividad comercial.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= SECCIÓN 3: ESTRATEGIA DE INTEGRACIÓN ================= -->
-            <div id="tab-estrategia" class="tab-content hidden space-y-6">
-                <div class="border-b border-slate-800 pb-4">
-                    <span class="text-xs text-brand-gold uppercase tracking-widest font-bold">Puente Tecnológico Sin Costo</span>
-                    <h2 class="font-serif text-3xl font-semibold text-white mt-1">3. Integración Inteligente de Datos (No-Code Sync)</h2>
-                    <p class="text-sm text-slate-400 mt-2">Sincronización automática de bases de datos y la necesaria diferenciación del journey por segmento de mercado.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Integración y Advertencia Técnica -->
-                    <div class="p-4 bg-brand-dark/40 border border-slate-800 rounded-xl space-y-3">
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> El Corazón de la Integración (Agendas)
-                        </h3>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">
-                            Como la IA escribe las citas directamente en el calendario de Zoho, **la sincronización bidireccional en tiempo real es obligatoria**. El equipo técnico debe configurar el webhook para mapear:
-                        </p>
-                        <ul class="text-[10px] text-slate-400 space-y-1 list-disc pl-4">
-                            <li>Horarios laborales y de comida disponibles de cada asesor.</li>
-                            <li>Definición de qué asesores atienden proyectos premium específicos.</li>
-                            <li>Límites máximos de citas agendadas por asesor al día.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Diferenciación por Segmento -->
-                    <div class="p-4 bg-brand-dark/40 border border-brand-gold/20 rounded-xl space-y-3">
-                        <h3 class="text-xs font-bold text-brand-gold uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-sliders"></i> Diferenciación por Segmento de Compra
-                        </h3>
-                        <div class="space-y-2 text-[11px]">
-                            <div class="p-2 bg-slate-800/40 rounded border border-slate-800">
-                                <strong class="text-white">Segmento Social (Ej. Las Colinas - $800K):</strong>
-                                <p class="text-[10px] text-slate-400">Operación masiva. El Agente de IA realiza casi todo el journey de prospección automática.</p>
-                            </div>
-                            <div class="p-2 bg-slate-800/40 rounded border border-brand-gold/10">
-                                <strong class="text-brand-gold">Segmento Premium (Ej. Arcana / Archer - $3M a $6M):</strong>
-                                <p class="text-[10px] text-slate-400">El cliente premium espera un trato personal impecable. La IA filtra y agenda rápido, pero **entrega de inmediato el control al asesor humano**.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Caja de Roles de Licencias -->
-                <div class="p-4 bg-slate-800/40 border border-slate-800 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <div>
-                        <span class="text-brand-gold font-bold text-xs">Licencia 1 (Salesforce):</span>
-                        <p class="text-[10px] text-slate-400 mt-1">Dedicada al entrenamiento de prompt y backend del Agente IA.</p>
-                    </div>
-                    <div>
-                        <span class="text-brand-gold font-bold text-xs">Licencia 2 (Salesforce):</span>
-                        <p class="text-[10px] text-slate-400 mt-1">Asignada al CSR corporativo para supervisión y analítica.</p>
-                    </div>
-                    <div>
-                        <span class="text-white font-bold text-xs">Zoho CRM (Asesores):</span>
-                        <p class="text-[10px] text-slate-400 mt-1">Uso libre para asesores de cierre. Captura automática por Webhook.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= SECCIÓN 4: PUNTOS DE INFLEXIÓN ================= -->
-            <div id="tab-mitigacion" class="tab-content hidden space-y-6">
-                <div class="border-b border-slate-800 pb-4">
-                    <span class="text-xs text-brand-gold uppercase tracking-widest font-bold">Manual Operativo de Ventas</span>
-                    <h2 class="font-serif text-3xl font-semibold text-white mt-1">4. Reglas del Embudo y Protocolo de Descarte</h2>
-                    <p class="text-sm text-slate-400 mt-2">Normativas institucionales de BL Real Estate para auditar llamadas, evitar fugas y evaluar la calidad publicitaria.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    
-                    <!-- Protocolo de 7 Intentos -->
-                    <div class="lg:col-span-1 p-3 bg-brand-dark/40 border border-slate-800 rounded-xl space-y-2">
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-list text-brand-gold"></i> Protocolo de 7 Intentos
-                        </h3>
-                        <p class="text-[10px] text-slate-400">Viento en popa: Variar horarios es la clave. Mínimo 7 intentos antes de dar de baja:</p>
-                        <div class="space-y-1 text-[9px] max-h-[140px] overflow-y-auto custom-scrollbar">
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 1 (0-60 min)</span><span class="text-brand-gold">Llamada</span></div>
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 2 (Mismo día, +2h)</span><span class="text-brand-gold">Llamada + WA</span></div>
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 3 (Mismo día, Noche)</span><span class="text-brand-gold">Llamada</span></div>
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 4 (Día 2, Mañana)</span><span class="text-brand-gold">Llamada</span></div>
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 5 (Día 2, Tarde)</span><span class="text-brand-gold">WhatsApp de Valor</span></div>
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 6 (Día 4)</span><span class="text-brand-gold">Llamada</span></div>
-                            <div class="p-1 bg-slate-800/40 rounded flex justify-between"><span class="text-slate-300">Intento 7 (Día 7)</span><span class="text-brand-gold">WA de Cierre</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Tipificación de Descarte Prohibido -->
-                    <div class="lg:col-span-2 p-3 bg-brand-dark/40 border border-slate-800 rounded-xl space-y-2">
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-ban text-rose-400"></i> Prohibido Descarte "No Sirve"
-                        </h3>
-                        <p class="text-[10px] text-slate-400">Está prohibido archivar leads sin un motivo real. El sistema Zoho califica la responsabilidad con base en la tipificación:</p>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-[9px]">
-                            <div class="p-2 bg-slate-900/40 rounded border border-slate-800/80">
-                                <span class="font-bold text-rose-400 uppercase tracking-wider">Causa: Marketing (Calidad)</span>
-                                <ul class="list-disc pl-3 mt-1 text-slate-400 space-y-0.5">
-                                    <li>Número equivocado o inexistente</li>
-                                    <li>Sin capacidad financiera / Crédito</li>
-                                    <li>Fuera de presupuesto de zona</li>
-                                    <li>Solo curioseando</li>
-                                </ul>
-                            </div>
-                            <div class="p-2 bg-slate-900/40 rounded border border-slate-800/80">
-                                <span class="font-bold text-amber-500 uppercase tracking-wider">Causa: Ventas (Atención)</span>
-                                <ul class="list-disc pl-3 mt-1 text-slate-400 space-y-0.5">
-                                    <li>No contesta (Tras 7 intentos registrados)</li>
-                                    <li>Compró en otro desarrollo (Lentitud en SLA)</li>
-                                    <li>Zona / Ubicación no viable (Neutro)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Regla de las 2 horas -->
-                <div class="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center gap-3">
-                    <span class="text-rose-400 text-lg"><i class="fa-solid fa-hourglass-half"></i></span>
-                    <p class="text-[11px] text-slate-400 leading-normal">
-                        <strong>SLA de reasignación automatizada:</strong> Todo lead asignado que no registre una llamada de primer contacto en Zoho dentro de las **2 horas hábiles** posteriores será penalizado por el sistema, retirándolo del asesor e ingresándolo al carrusel del siguiente ejecutivo.
-                    </p>
-                </div>
-            </div>
-
-            <!-- ================= SECCIÓN 5: BLUEPRINT OPERATIVO ================= -->
-            <div id="tab-blueprint" class="tab-content hidden space-y-6">
-                <div class="border-b border-slate-800 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div>
-                        <span class="text-xs text-brand-gold uppercase tracking-widest font-bold">Mapa de Interacción de Procesos</span>
-                        <h2 class="font-serif text-3xl font-semibold text-white mt-1">5. Blueprint Operativo: Journey Residencial Arcana</h2>
-                        <p class="text-sm text-slate-400 mt-1">Ecosistema interactivo de conversión. Haz clic en cada nodo del mapa de procesos para ver su descripción detallada.</p>
-                    </div>
-                    <span class="bg-brand-gold/10 text-brand-gold text-xs px-3 py-1 rounded-full border border-brand-gold/20 font-semibold flex items-center gap-2">
-                        <i class="fa-solid fa-hand-pointer animate-bounce"></i> Interactivo
-                    </span>
-                </div>
-
-                <!-- DIAGRAMA INTERACTIVO SVG + HTML NODES -->
-                <div class="p-4 bg-brand-dark/60 rounded-2xl border border-slate-800">
-                    
-                    <!-- Diagrama de Flujo Visual -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-2 relative">
-                        
-                        <!-- Nodo 1 -->
-                        <button onclick="selectNode(1)" id="node-1" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2 node-active">
-                            <span class="w-8 h-8 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center text-xs font-bold">01</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Atracción Meta Ads</span>
-                            <span class="text-[9px] text-slate-400">Instagram / FB / WhatsApp</span>
-                        </button>
-
-                        <!-- Nodo 2 -->
-                        <button onclick="selectNode(2)" id="node-2" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center text-xs font-bold">02</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Filtro IA Salesforce</span>
-                            <span class="text-[9px] text-slate-400">Calificación Financiera 24/7</span>
-                        </button>
-
-                        <!-- Nodo 3 -->
-                        <button onclick="selectNode(3)" id="node-3" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs font-bold">03</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Paso a Zoho CRM</span>
-                            <span class="text-[9px] text-slate-400">Integración No-Code Webhook</span>
-                        </button>
-
-                        <!-- Nodo 4 -->
-                        <button onclick="selectNode(4)" id="node-4" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs font-bold">04</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Asignación Express</span>
-                            <span class="text-[9px] text-slate-400">Round Robin & Regla 2 Horas</span>
-                        </button>
-
-                        <!-- Nodo 5 -->
-                        <button onclick="selectNode(5)" id="node-5" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-pink-500/10 text-pink-400 flex items-center justify-center text-xs font-bold">05</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Gestión del Asesor</span>
-                            <span class="text-[9px] text-slate-400">Llamada y Cita en Showroom</span>
-                        </button>
-
-                        <!-- Nodo 6 -->
-                        <button onclick="selectNode(6)" id="node-6" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs font-bold">06</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Concierge Proyecto B</span>
-                            <span class="text-[9px] text-slate-400">Llamada de Control / Cruce</span>
-                        </button>
-
-                        <!-- Nodo 7 -->
-                        <button onclick="selectNode(7)" id="node-7" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-teal-500/10 text-teal-400 flex items-center justify-center text-xs font-bold">07</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Showroom / Cierre</span>
-                            <span class="text-[9px] text-slate-400">Firma o Reingreso a IA</span>
-                        </button>
-
-                        <!-- Nodo 8 -->
-                        <button onclick="selectNode(8)" id="node-8" class="node-btn p-3 bg-brand-slate border-2 border-slate-800 rounded-xl text-center hover:border-slate-600 transition-all flex flex-col items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-violet-500/10 text-violet-400 flex items-center justify-center text-xs font-bold">08</span>
-                            <span class="text-xs font-bold text-white uppercase tracking-wider">Reporte de Métricas</span>
-                            <span class="text-[9px] text-slate-400">Lunes de Dashboard CSR</span>
-                        </button>
-                    </div>
-
-                    <!-- Panel de Explicación Dinámica del Nodo -->
-                    <div class="mt-6 p-4 bg-slate-800/40 border border-slate-800 rounded-xl">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span id="node-exp-icon" class="text-brand-gold text-lg"><i class="fa-solid fa-map-pin"></i></span>
-                            <h3 id="node-exp-title" class="font-serif text-lg font-bold text-white">01. Atracción Meta Ads</h3>
-                        </div>
-                        <p id="node-exp-desc" class="text-xs text-slate-300 leading-relaxed">
-                            Campañas publicitarias optimizadas dirigidas al segmento de mayor poder adquisitivo en Guadalajara. Los anuncios se enfocan en la ubicación privilegiada de Arcos Vallarta y el diseño premium, enviando el tráfico directamente al chat integrado donde inicia el proceso de atención automatizada.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Botones de Navegación del Slider -->
-            <div class="border-t border-slate-800 pt-4 flex justify-between items-center mt-6">
-                <button onclick="prevTab()" class="text-xs text-slate-400 hover:text-white flex items-center gap-2 bg-slate-800/40 px-4 py-2 rounded-lg hover:bg-slate-800 transition-all">
+            <!-- Controles de Navegación del Slide -->
+            <div class="flex justify-between items-center mt-4">
+                <button onclick="prevSlide()" class="px-4 py-2 rounded-lg bg-brand-navy hover:bg-slate-800 text-xs font-bold text-slate-300 transition-all flex items-center gap-2 border border-brand-border">
                     <i class="fa-solid fa-arrow-left"></i> Anterior
                 </button>
-                <div class="flex gap-1">
-                    <span class="indicator-dot w-2 h-2 rounded-full bg-brand-gold" id="dot-objetivos"></span>
-                    <span class="indicator-dot w-2 h-2 rounded-full bg-slate-700" id="dot-recursos"></span>
-                    <span class="indicator-dot w-2 h-2 rounded-full bg-slate-700" id="dot-estrategia"></span>
-                    <span class="indicator-dot w-2 h-2 rounded-full bg-slate-700" id="dot-mitigacion"></span>
-                    <span class="indicator-dot w-2 h-2 rounded-full bg-slate-700" id="dot-blueprint"></span>
+                <div class="flex gap-1.5" id="slide-dots">
+                    <!-- Dots inyectados por JS -->
                 </div>
-                <button onclick="nextTab()" class="text-xs text-brand-dark bg-brand-gold font-bold px-4 py-2 rounded-lg hover:bg-brand-gold-dark hover:text-white flex items-center gap-2 transition-all">
+                <button onclick="nextSlide()" class="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-goldDark text-brand-navy font-bold text-xs transition-all flex items-center gap-2">
                     Siguiente <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
-
-        </section>
-
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-brand-dark px-6 py-4 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-            <p>&copy; 2026 BL Real Estate S.A. de C.V. Todos los derechos reservados.</p>
-            <div class="flex gap-4">
-                <a href="#" class="hover:text-brand-gold transition-all">Soporte Técnico CRM</a>
-                <span>·</span>
-                <a href="#" class="hover:text-brand-gold transition-all">Manual Comercial Arcana</a>
-            </div>
-        </div>
+    <!-- MODO LECTURA CONTINUA: DOCUMENTO COMPLETO -->
+    <main id="scroll-layout" class="hidden max-w-5xl w-full mx-auto p-6 md:p-12 flex flex-col gap-12">
+        <!-- El contenido se autogenera aquí en formato de lectura continua o para imprimir -->
+    </main>
+
+    <!-- FOOTER GENERAL -->
+    <footer class="bg-brand-slate border-t border-brand-border py-4 px-6 text-center text-xs text-slate-500 mt-auto">
+        <p>© 2026 BL Real Estate. Todos los derechos reservados. Manuales Oficiales: Operación de Ventas con Agente de IA y Reglas del Embudo.</p>
     </footer>
 
-    <!-- LÓGICA DE INTERACTIVIDAD JS -->
+    <!-- LÓGICA DE CONTROL DE LA PRESENTACIÓN -->
     <script>
-        // Arreglo de tabs para navegación secuencial
-        const tabs = ['tab-objetivos', 'tab-recursos', 'tab-estrategia', 'tab-mitigacion', 'tab-blueprint'];
-        let currentTabIdx = 0;
+        // Modo de visualización activo (slide o scroll)
+        let activeMode = 'slide';
+        let currentSlideIdx = 0;
 
-        // Base de datos de los nodos del blueprint interactivo
-        const nodeData = {
+        // Base de Datos de Diapositivas (Híbrida para ambos modos)
+        const slideData = [
+            {
+                category: "BIENVENIDA",
+                subheader: "Estrategia Operativa Unificada",
+                title: "Sistematización Comercial: <span>Archer & Arcana</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <p class="text-slate-300 text-lg leading-relaxed">
+                                Bienvenido a la presentación estratégica de la infraestructura comercial de <strong>BL Real Estate</strong>. Este ecosistema fusiona la velocidad automatizada de <strong>Salesforce Agentforce (IA)</strong> con el control de <strong>Zoho CRM</strong>.
+                            </p>
+                            <p class="text-slate-400 text-sm">
+                                Diseñado para optimizar costos publicitarios, garantizar un trato diferenciado por segmento y eliminar la pérdida de prospectos en el mercado inmobiliario de Jalisco.
+                            </p>
+                            <div class="p-3 bg-brand-gold/10 border border-brand-gold/20 rounded-xl flex items-center gap-3">
+                                <i class="fa-solid fa-shield-halved text-brand-gold text-lg"></i>
+                                <span class="text-xs text-slate-300">Respaldado por el manual corporativo y las reglas del embudo de ventas.</span>
+                            </div>
+                        </div>
+                        <div class="bg-brand-navy/60 p-6 rounded-2xl border border-brand-border text-center space-y-4">
+                            <h4 class="text-brand-gold font-display font-bold text-sm uppercase tracking-wider">Flujo Multiproyecto</h4>
+                            <p class="text-xs text-slate-400">Implementado para los 5 desarrollos del grupo corporativo:</p>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <span class="bg-slate-800 text-white text-[10px] px-3 py-1 rounded-full border border-brand-border">Archer</span>
+                                <span class="bg-brand-gold/20 text-brand-gold text-[10px] px-3 py-1 rounded-full border border-brand-gold/30">Arcana</span>
+                                <span class="bg-slate-800 text-white text-[10px] px-3 py-1 rounded-full border border-brand-border">Parnaso</span>
+                                <span class="bg-slate-800 text-white text-[10px] px-3 py-1 rounded-full border border-brand-border">Las Colinas</span>
+                                <span class="bg-slate-800 text-white text-[10px] px-3 py-1 rounded-full border border-brand-border">Torrento</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO I",
+                subheader: "Visión General y Objetivos",
+                title: "Objetivos de <span>BL Real Estate</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-brand-navy/40 p-5 rounded-xl border border-brand-border hover:border-brand-gold/40 transition-all text-center">
+                            <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4 text-brand-gold">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-sm mb-2">Visitas Viables</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">Generar la máxima cantidad de oportunidades de venta viables traduciendo los leads digitales en visitas físicas confirmadas al Showroom.</p>
+                        </div>
+                        <div class="bg-brand-navy/40 p-5 rounded-xl border border-brand-border hover:border-brand-gold/40 transition-all text-center">
+                            <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4 text-brand-gold">
+                                <i class="fa-solid fa-chart-bar"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-sm mb-2">Rendimiento Técnico</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">Medir el desempeño del asesor (tasas de contacto, tiempos de respuesta) y la calidad real del tráfico pagado en Meta Ads.</p>
+                        </div>
+                        <div class="bg-brand-navy/40 p-5 rounded-xl border border-brand-border hover:border-brand-gold/40 transition-all text-center">
+                            <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4 text-brand-gold">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-sm mb-2">Neutralidad y Sinergia</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">Evitar fricción interna a través de auditorías neutrales de recepciones, incentivando comisiones cruzadas por citas agendadas.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "PRODUCTO",
+                subheader: "Radiografía de Producto e Inventario",
+                title: "Archer (Arcos Vallarta) vs <span>Arcana (El Álamo)</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Producto A -->
+                        <div class="p-5 bg-brand-navy/40 border border-brand-border rounded-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-brand-gold font-bold text-base">🏢 ARCHER (Residencial Premium)</h4>
+                                <span class="bg-amber-500/10 text-brand-gold text-[9px] px-2.5 py-0.5 rounded-full uppercase font-bold border border-brand-gold/20">Preventa Cero</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-4">Ubicación altamente galardonada y de máxima conectividad en Av. Morelos 2126, Arcos Vallarta, Guadalajara.</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-brand-slate p-2 rounded"><strong>Precio Inicial:</strong> Desde $2.7 MDP</div>
+                                <div class="bg-brand-slate p-2 rounded"><strong>Rango Promedio:</strong> $4.0 MDP</div>
+                                <div class="bg-brand-slate p-2 rounded"><strong>Sótanos:</strong> 5 Subterráneos</div>
+                                <div class="bg-brand-slate p-2 rounded"><strong>Área:</strong> Co-living 34m² a Viv. 106m²</div>
+                            </div>
+                        </div>
+                        <!-- Producto B -->
+                        <div class="p-5 bg-brand-navy/40 border border-brand-border rounded-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-brand-emerald font-bold text-base">🔑 ARCANA (Entrega / Inversión)</h4>
+                                <span class="bg-emerald-500/10 text-brand-emerald text-[9px] px-2.5 py-0.5 rounded-full uppercase font-bold border border-emerald-500/20">Inmediata & Prev. 12m</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-4">Proyecto enfocado en el sector industrial y patrimonial, ubicado estratégicamente en El Álamo Industrial, Tlaquepaque.</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-brand-slate p-2 rounded"><strong>Precio Inicial:</strong> $1.7 MDP</div>
+                                <div class="bg-brand-slate p-2 rounded"><strong>Rango Promedio:</strong> $2.0 MDP</div>
+                                <div class="bg-brand-slate p-2 rounded"><strong>Sótanos:</strong> 1 Nivel</div>
+                                <div class="bg-brand-slate p-2 rounded"><strong>Ubicación:</strong> Tlaquepaque, Jal.</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO II",
+                subheader: "Limitaciones y Factibilidad Técnica",
+                title: "Infraestructura: <span>Recursos y Limitantes</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-brand-gold"></i> Activos de Operación Actuales
+                            </h4>
+                            <div class="p-3 bg-brand-navy/50 border border-brand-border rounded-lg flex gap-3 text-xs">
+                                <i class="fa-solid fa-robot text-brand-gold mt-1"></i>
+                                <div>
+                                    <strong class="text-white block">Salesforce Agentforce (IA)</strong>
+                                    <span class="text-slate-400">Atención instantánea de chats 24/7. Filtra y califica antes del traspaso.</span>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-brand-navy/50 border border-brand-border rounded-lg flex gap-3 text-xs">
+                                <i class="fa-solid fa-database text-brand-gold mt-1"></i>
+                                <div>
+                                    <strong class="text-white block">Zoho CRM Institucional</strong>
+                                    <span class="text-slate-400">La fuente única de verdad comercial donde opera el equipo humano de cierre.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation text-brand-rose"></i> Limitaciones Críticas de TI
+                            </h4>
+                            <div class="p-4 bg-brand-rose/5 border border-brand-rose/20 rounded-xl space-y-2">
+                                <p class="text-xs text-slate-300">
+                                    <strong>1. Licenciamiento de Salesforce:</strong> Solo se cuenta con <strong>2 licencias contratadas</strong>, por lo que los asesores (Ricardo, Miguel, Israel) no pueden operar directamente en Salesforce.
+                                </p>
+                                <p class="text-xs text-slate-300">
+                                    <strong>2. Ausencia de API Premium:</strong> No hay un conector nativo. La transferencia de datos hacia Zoho se gestionará mediante <strong>Webhooks automáticos vía Zapier / Make</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO III",
+                subheader: "Estrategias e Integración de Datos",
+                title: "Regla de Oro y <span>Trato por Segmento</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Regla de oro -->
+                        <div class="p-5 bg-brand-navy/40 border border-brand-border rounded-xl flex gap-4">
+                            <div class="text-brand-gold text-3xl"><i class="fa-solid fa-shield-cat"></i></div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm mb-2">"El lead entra a Zoho, no al WhatsApp"</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Es la norma institucional suprema. Marketing carga y Zoho captura la hora exacta de entrada. Queda estrictamente prohibido prospectar o interactuar fuera del CRM para asegurar la trazabilidad y pertenencia del cliente.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Trato por Segmento -->
+                        <div class="p-5 bg-brand-navy/40 border border-brand-border rounded-xl flex gap-4">
+                            <div class="text-brand-gold text-3xl"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm mb-2">Diferenciación por Segmento (IA vs Humano)</h4>
+                                <div class="space-y-2 text-xs">
+                                    <p class="text-slate-400">
+                                        <strong class="text-white">Social (Ej: Las Colinas - $800K):</strong> Trato masivo. La IA gestiona casi el 90% del journey automático.
+                                    </p>
+                                    <p class="text-slate-400">
+                                        <strong class="text-brand-gold">Premium (Ej: Archer / Arcana):</strong> El cliente de ticket alto exige trato consultivo humano rápido. La IA filtra y agenda rápido, pero **entrega de inmediato el lead al asesor**.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO IV",
+                subheader: "Blueprint del Flujo de Conversión",
+                title: "Blueprint Operativo: <span>Journey Arcana / Archer</span>",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                        <!-- Mapa Interactivo del Blueprint -->
+                        <div class="lg:col-span-3 bg-brand-navy/60 p-4 rounded-xl border border-brand-border">
+                            <div class="flex flex-col items-center gap-3">
+                                
+                                <button onclick="clickBlueprintNode(1)" id="bp-node-1" class="blueprint-node blueprint-active bg-brand-slate border-2 border-brand-border p-3 text-center rounded-lg text-xs font-bold text-white w-full max-w-sm transition-all">
+                                    [LEAD META ADS]
+                                </button>
+                                
+                                <span class="text-brand-gold text-sm"><i class="fa-solid fa-arrow-down"></i></span>
+                                
+                                <div class="flex gap-4 items-center w-full justify-center">
+                                    <button onclick="clickBlueprintNode(3)" id="bp-node-3" class="blueprint-node bg-brand-slate border border-dashed border-slate-600 p-2.5 text-center rounded-lg text-[10px] text-slate-400 w-36 transition-all">
+                                        [JOURNEY NUTRICIÓN IA]<br><span class="font-normal text-[8px] block mt-0.5">Frecuencia: 7-14 días</span>
+                                    </button>
+                                    <span class="text-brand-gold text-sm"><i class="fa-solid fa-arrow-left"></i></span>
+                                    <button onclick="clickBlueprintNode(2)" id="bp-node-2" class="blueprint-node bg-brand-slate border-2 border-brand-border p-3 text-center rounded-lg text-xs font-bold text-white w-52 transition-all">
+                                        [SALESFORCE AGENTFORCE (IA)]
+                                    </button>
+                                    <span class="text-brand-gold text-sm"><i class="fa-solid fa-arrow-right"></i></span>
+                                    <button onclick="clickBlueprintNode(4)" id="bp-node-4" class="blueprint-node bg-brand-slate border-2 border-brand-border p-2.5 text-center rounded-lg text-[10px] font-bold text-white w-40 transition-all">
+                                        [ZAPIER / WEBHOOK]
+                                    </button>
+                                </div>
+                                
+                                <span class="text-brand-gold text-sm"><i class="fa-solid fa-arrow-down"></i></span>
+                                
+                                <button onclick="clickBlueprintNode(5)" id="bp-node-5" class="blueprint-node bg-brand-slate border-2 border-brand-border p-3 text-center rounded-lg text-xs font-bold text-white w-full max-w-sm transition-all">
+                                    [ZOHO CRM: ASIGNACIÓN ROUND ROBIN]<br><span class="font-normal text-[9px] text-slate-400">Regla de 12 Horas de SLA</span>
+                                </button>
+                                
+                                <span class="text-brand-gold text-sm"><i class="fa-solid fa-arrow-down"></i></span>
+                                
+                                <div class="flex gap-4 items-center justify-center">
+                                    <button onclick="clickBlueprintNode(6)" id="bp-node-6" class="blueprint-node bg-brand-gold text-brand-navy p-3 text-center rounded-lg text-xs font-bold w-48 transition-all shadow-md">
+                                        [CITAS Y VISITAS]
+                                    </button>
+                                    <span class="text-brand-gold text-sm"><i class="fa-solid fa-arrow-left"></i></span>
+                                    <button onclick="clickBlueprintNode(7)" id="bp-node-7" class="blueprint-node bg-brand-slate border-2 border-brand-border p-2.5 text-center rounded-lg text-[10px] font-bold text-white w-56 transition-all">
+                                        [RECEPCIÓN PROYECTO B]<br><span class="font-normal text-[8px] text-slate-400 block mt-0.5">Concierge de Calidad (24h antes)</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Explicativa -->
+                        <div class="bg-brand-slate p-4 rounded-xl border border-brand-border h-full">
+                            <h4 class="text-xs font-bold text-brand-gold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-info-circle"></i> Detalle del Paso
+                            </h4>
+                            <div id="blueprint-details-pane" class="space-y-3 text-xs">
+                                <strong class="text-white block text-sm" id="bp-det-title">1. Entrada del Lead (Meta Ads)</strong>
+                                <p class="text-slate-400 leading-relaxed" id="bp-det-desc">
+                                    El cliente interactúa con la campaña publicitaria de Facebook, Instagram o WhatsApp. El lead es inyectado inmediatamente a Salesforce en tiempo real, garantizando cero pérdida de contacto inicial.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO IV",
+                subheader: "Asignación y SLA",
+                title: "Asignación Express y <span>SLA de 12 Horas</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h4 class="text-white font-bold text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-clock text-brand-gold"></i> SLA estricto de Contacto Humano
+                            </h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Tras recibir el prospecto calificado desde la IA hacia Zoho CRM mediante Zapier, el asesor asignado (Ricardo, Miguel, Israel o CSR) tiene un **máximo estricto de 12 horas** para registrar el primer contacto humano (Llamada de confirmación).
+                            </p>
+                            <p class="text-xs text-slate-400">
+                                Si el CRM detecta que han transcurrido las 12 horas hábiles sin actualización de bitácora en Zoho:
+                            </p>
+                            <div class="p-3 bg-brand-rose/10 border border-brand-rose/20 rounded-lg text-brand-rose text-xs font-bold">
+                                EL LEAD SE RETIRA Y SE REASIGNA AUTOMÁTICAMENTE SIN NOTIFICAR AL ASESOR.
+                            </div>
+                        </div>
+                        <div class="bg-brand-navy/40 p-5 rounded-xl border border-brand-border space-y-3">
+                            <h4 class="text-brand-gold font-bold text-sm uppercase tracking-wider">Asignación Equitativa</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                El sistema aplica un algoritmo **Round Robin (Carrusel)** directo en Zoho CRM. La distribución se realiza en estricto orden de llegada entre los asesores habilitados, garantizando neutralidad y eliminando favoritismos en la asignación de leads premium.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO V",
+                subheader: "Reglas de Contacto de BL Real Estate",
+                title: "Protocolo de <span>7 Intentos de Contacto</span>",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-xs text-slate-400 leading-normal">
+                            Un prospecto nunca se descarta con uno o dos intentos fallidos. El manual de ventas exige un **mínimo de 7 intentos en horarios y canales cruzados** registrados obligatoriamente en Zoho para declarar un lead frío:
+                        </p>
+                        <div class="table-layout overflow-x-auto custom-scrollbar">
+                            <table>
+                                <thead>
+                                    <tr class="bg-brand-slate text-brand-gold border-b border-brand-border text-xs">
+                                        <th class="py-2.5 px-4 font-bold text-left">Momento</th>
+                                        <th class="py-2.5 px-4 font-bold text-center">Intento</th>
+                                        <th class="py-2.5 px-4 font-bold text-left">Canal y Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xs text-slate-300">
+                                    <tr class="border-b border-brand-border/40">
+                                        <td class="py-2 px-4">Primeros 15-60 min</td>
+                                        <td class="py-2 px-4 text-center">1</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-phone"></i></span> Llamada Telefónica Directa (Urgencia)</td>
+                                    </tr>
+                                    <tr class="border-b border-brand-border/40">
+                                        <td class="py-2 px-4">Mismo día, 2-3h después</td>
+                                        <td class="py-2 px-4 text-center">2</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-comments"></i></span> Llamada + WhatsApp de presentación</td>
+                                    </tr>
+                                    <tr class="border-b border-brand-border/40">
+                                        <td class="py-2 px-4">Mismo día, Tarde / Noche</td>
+                                        <td class="py-2 px-4 text-center">3</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-phone"></i></span> Llamada telefónica</td>
+                                    </tr>
+                                    <tr class="border-b border-brand-border/40">
+                                        <td class="py-2 px-4">Día 2, Mañana</td>
+                                        <td class="py-2 px-4 text-center">4</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-phone"></i></span> Llamada telefónica</td>
+                                    </tr>
+                                    <tr class="border-b border-brand-border/40">
+                                        <td class="py-2 px-4">Día 2, Tarde</td>
+                                        <td class="py-2 px-4 text-center">5</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-message"></i></span> WhatsApp con Mensaje de Valor (Ficha/Render)</td>
+                                    </tr>
+                                    <tr class="border-b border-brand-border/40">
+                                        <td class="py-2 px-4">Día 4</td>
+                                        <td class="py-2 px-4 text-center">6</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-phone"></i></span> Llamada telefónica</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Día 7</td>
+                                        <td class="py-2 px-4 text-center">7</td>
+                                        <td class="py-2 px-4"><span class="text-brand-gold"><i class="fa-solid fa-comment-slash"></i></span> Llamada + WhatsApp de Cierre de Seguimiento</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO V",
+                subheader: "Gestión de Descarte Comercial",
+                title: "Matriz de Descarte Prohibido: <span>'No Sirve'</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h4 class="text-brand-rose font-bold text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-ban"></i> Motivos Exclusivos de Descarte
+                            </h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Queda estrictamente prohibido archivar leads con descripciones ambiguas como "No sirve" o "Lead malo". El descarte debe seleccionarse de la lista fija para auditar la procedencia del error de forma objetiva:
+                            </p>
+                            <div class="bg-brand-navy/60 p-3 rounded-lg border border-brand-border text-xs text-slate-300">
+                                <strong>La regla de oro:</strong> Si el descarte es por presupuesto o zona, se analiza a Marketing. Si es por "no contesta" o "compró en otro lado", se audita el tiempo de respuesta del equipo de ventas.
+                            </div>
+                        </div>
+
+                        <!-- Tipificación -->
+                        <div class="space-y-2 text-xs">
+                            <div class="p-2.5 bg-brand-slate rounded border border-brand-border flex justify-between">
+                                <div>
+                                    <strong class="text-white block">Número Inexistente / Equivocado</strong>
+                                    <span class="text-[10px] text-slate-500">Causa atribuida: Calidad de Captura publicitaria</span>
+                                </div>
+                                <span class="bg-rose-500/15 text-brand-rose text-[9px] px-2 py-0.5 rounded-full font-bold h-fit">Marketing</span>
+                            </div>
+                            <div class="p-2.5 bg-brand-slate rounded border border-brand-border flex justify-between">
+                                <div>
+                                    <strong class="text-white block">Sin Capacidad de Crédito / Fuera Presupuesto</strong>
+                                    <span class="text-[10px] text-slate-500">Causa atribuida: Segmentación de Marketing / Filtro IA</span>
+                                </div>
+                                <span class="bg-rose-500/15 text-brand-rose text-[9px] px-2 py-0.5 rounded-full font-bold h-fit">Marketing</span>
+                            </div>
+                            <div class="p-2.5 bg-brand-slate rounded border border-brand-border flex justify-between">
+                                <div>
+                                    <strong class="text-white block">No Contesta tras 7 Intentos Reales</strong>
+                                    <span class="text-[10px] text-slate-500">Causa atribuida: Patrón de llamadas / Prospección</span>
+                                </div>
+                                <span class="bg-amber-500/15 text-brand-gold text-[9px] px-2 py-0.5 rounded-full font-bold h-fit">Ventas</span>
+                            </div>
+                            <div class="p-2.5 bg-brand-slate rounded border border-brand-border flex justify-between">
+                                <div>
+                                    <strong class="text-white block">Compró en Otro Lado</strong>
+                                    <span class="text-[10px] text-slate-500">Causa atribuida: Lentitud en el SLA inicial de contacto</span>
+                                </div>
+                                <span class="bg-amber-500/15 text-brand-gold text-[9px] px-2 py-0.5 rounded-full font-bold h-fit">Ventas</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MÓDULO V",
+                subheader: "Confirmación y Auditoría Cruzada",
+                title: "Confirmaciones y <span>Cruce de Recepciones</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h4 class="text-white font-bold text-sm">El Rol del Concierge de Calidad</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Para blindar la neutralidad de la operación, la recepción del **Proyecto B** tiene la encomienda de llamar a los leads con "Cita Programada" para el **Proyecto A (Archer / Arcana)** con 24 horas de anticipación.
+                            </p>
+                            <p class="text-xs text-slate-400">
+                                Esta llamada audita el sistema (asegura que el asesor realmente llamó) y facilita la llegada ofreciendo accesos, cajón de estacionamiento subterráneo reservado y recepción.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-brand-navy/60 border border-brand-border rounded-xl space-y-3">
+                            <h4 class="text-brand-gold font-bold text-xs uppercase tracking-wider">Cruce de Beneficios y Sinergia</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Si durante la llamada de confirmación de Archer (Arcos Vallarta), el cliente desiste debido a que la zona geográfica no se acopla a su trabajo en el Sur de la ciudad, la recepción aplica el **cruce comercial** inmediato:
+                            </p>
+                            <div class="p-2.5 bg-brand-slate rounded border border-brand-emerald/20 text-brand-emerald text-xs font-semibold">
+                                "Contamos con el desarrollo Arcana en El Álamo Industrial, Tlaquepaque, con excelentes planes. ¿Le programo una cita?"
+                            </div>
+                            <p class="text-[10px] text-slate-500 text-center">La recepción y el asesor que comparte el lead son acreedores a comisiones compartidas por cita/visita efectuada.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "MEDICIÓN",
+                subheader: "Métricas Operativas y de Retorno",
+                title: "Esquema de Medición: <span>KPIs y Trazabilidad</span>",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Corto plazo -->
+                        <div class="p-5 bg-brand-slate border border-brand-border rounded-xl space-y-4">
+                            <h4 class="text-brand-gold font-bold text-sm uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-week"></i> Corto Plazo (Semanal)
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bar">
+                                    <div class="label">Leads Calificados IA</div>
+                                    <div class="bar-inner"><div class="bar-fill" style="width: 85%;">85%</div></div>
+                                </div>
+                                <div class="bar">
+                                    <div class="label">Visitas Programadas</div>
+                                    <div class="bar-inner"><div class="bar-fill" style="width: 60%; background: #94a3b8;">60%</div></div>
+                                </div>
+                                <div class="bar">
+                                    <div class="label">Visitas Realizadas</div>
+                                    <div class="bar-inner"><div class="bar-fill" style="width: 40%; background: #d4af37;">40%</div></div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-500">Métricas clave semanales: Total leads generados, estatus de journey activo (1 de 4), costo por visita realizada vs presupuesto publicitario de Meta Ads.</p>
+                        </div>
+
+                        <!-- Mediano plazo -->
+                        <div class="p-5 bg-brand-slate border border-brand-border rounded-xl space-y-4">
+                            <h4 class="text-brand-emerald font-bold text-sm uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line"></i> Mediano Plazo (Mensual)
+                            </h4>
+                            <div class="space-y-2 text-xs text-slate-400">
+                                <p><strong class="text-white">1. Retorno de Inversión (ROI):</strong> Análisis de la conversión final de apartados comparando el presupuesto Meta Ads de Archer contra Arcana.</p>
+                                <p><strong class="text-white">2. Índice de Reasignaciones:</strong> Monitoreo de Leads retirados a asesores por violación del SLA de 12 horas, optimizando la asignación.</p>
+                                <p><strong class="text-white">3. Contenido Valioso:</strong> Análisis del copy y material publicitario que genera leads pre-calificados viables mediante el Agentforce.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Base de Datos de Nodos del Blueprint
+        const blueprintNodeData = {
             1: {
-                title: "01. Atracción Meta Ads",
-                icon: "<i class='fa-solid fa-bullhorn'></i>",
-                desc: "Campañas publicitarias de conversión directa. Los anuncios se configuran hacia el perfil de tomadores de decisión (35-45 años) que trabajan en el clúster de Puerta de Hierro o el Clúster Industrial del Sur, direccionándolos a Messenger, Instagram o WhatsApp Business."
+                title: "1. Entrada del Lead (Meta Ads)",
+                desc: "Campañas dirigidas en Facebook, Instagram y WhatsApp. Capta la atención de perfiles calificados según radiografías (Parnaso, Monte Alegre, Arcana) e inyecta la información en milisegundos."
             },
             2: {
-                title: "02. Filtro IA Salesforce (Agentforce)",
-                icon: "<i class='fa-solid fa-robot'></i>",
-                desc: "El agente conversacional atiende en segundos (24/7). Su meta es perfilar al lead de manera sutil pero directa: califica presupuesto, interés por prototipo (Co-living de 34m² o vivienda residencial de 1 a 3 habitaciones), forma de pago (recursos propios, bancario, Cofinavit) y proyecto de interés."
+                title: "2. Salesforce Agentforce (IA)",
+                desc: "Atiende de forma inmediata 24/7. Califica si el lead tiene presupuesto para Archer ($2.7M+) o Arcana ($1.7M+), forma de pago (recursos, crédito, Cofinavit) y agenda directo en el calendario."
             },
             3: {
-                title: "03. Envío Seguro por Webhook",
-                icon: "<i class='fa-solid fa-bolt'></i>",
-                desc: "Al marcar al lead como 'Muy Interesado', se ejecuta el envío automático mediante Webhooks (Zapier o Make). Este puente transfiere toda la conversación e información recabada desde el entorno de Salesforce directo a la base de datos de Zoho CRM, que actúa como fuente única de verdad."
+                title: "3. Journey de Nutrición IA",
+                desc: "Para leads desestimados o fríos. Envío de secuencias de mensajes cada 7-14 días con renders del Sky Bar, alberca o avances de obra para recuperar interés de compra."
             },
             4: {
-                title: "04. Asignación Express (Round Robin)",
-                icon: "<i class='fa-solid fa-arrows-spin'></i>",
-                desc: "Zoho recibe el prospecto y de manera automatizada lo asigna al carrusel equitativo de asesores (CSR, Ricardo, Miguel, Israel). Corre el SLA de contacto: el asesor tiene un plazo estricto de 2 horas hábiles para contactar al cliente o el sistema retira el prospecto."
+                title: "4. Zapier / Webhooks de Integración",
+                desc: "Al no contar con API contratada, este bridge técnico transfiere el lead calificado por IA con todo su historial de conversación directamente a Zoho CRM."
             },
             5: {
-                title: "05. Gestión del Asesor",
-                icon: "<i class='fa-solid fa-user-tie'></i>",
-                desc: "El asesor contacta por teléfono, resuelve dudas de forma personalizada, ofrece esquemas de pago flexibles de preventa cero y agenda formalmente la visita física al showroom de Av. Morelos 2126. Registra el estatus 'Cita Programada' en Zoho CRM."
+                title: "5. Asignación Zoho CRM (Round Robin)",
+                desc: "Asignación equitativa inmediata a los asesores. Corre el SLA estricto de 12 horas para contactar al cliente o el lead se retira automáticamente sin aviso."
             },
             6: {
-                title: "06. Confirmación Neutral (Concierge)",
-                icon: "<i class='fa-solid fa-bell-concierge'></i>",
-                desc: "Confirmación en 3 pasos: WhatsApp el día anterior (Hola [Nombre], le confirmo su cita para conocer Archer mañana a las [Hora]...), llamada o WA la mañana de la cita para abatir no-shows, y envío de ubicación y referencias. Si el cliente no puede llegar, se usa el guion de recuperación: 'Hola [Nombre], lo esperábamos hoy y no pudo llegar, sin problema... ¿Le parece si reagendamos para [Opción 1] o [Opción 2]?'."
+                title: "6. Visita Física Programada",
+                desc: "El momento clave de la conversión. El asesor brinda atención consultiva en Showroom mostrando maquetas físicas, amenidades y cerrando apartados."
             },
             7: {
-                title: "07. Showroom y Cierre",
-                icon: "<i class='fa-solid fa-handshake'></i>",
-                desc: "Visita guiada en las inmediaciones del showroom Arcana/Archer. El asesor presenta la maqueta física, renders, amenidades (Sky Bar, Alberca, Gimnasio) y se busca la firma de contrato de compra. Si el cliente no concreta o se enfría, se reactiva el journey automático de la IA por 6 meses con mensajes de avance de obra."
-            },
-            8: {
-                title: "08. Auditoría y Reporte de Métricas",
-                icon: "<i class='fa-solid fa-chart-pie'></i>",
-                desc: "Cada lunes de dashboard, el CSR extrae el reporte de métricas clave: Tiempo de primer contacto por lead/asesor, número de intentos registrados (mínimo 7 antes de descarte), tasa de conversión de cada etapa, porcentaje de citas que llegan a visita real y el nuevo indicador estratégico: '% de leads calificados con éxito por la IA'."
+                title: "7. Confirmación y Auditoría de Recepción",
+                desc: "La recepción del Proyecto B llama 24h antes para validar asistencia. Ofrece cajón subterráneo, bienvenida y ejecuta el cruce comercial si la zona del Proyecto A no le conviene."
             }
         };
 
-        // Función para cambiar de diapositiva/tab de manera directa
-        function switchTab(tabId) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('block');
-            });
-            // Mostrar la seleccionada
-            const target = document.getElementById(tabId);
-            target.classList.remove('hidden');
-            target.classList.add('block');
-
-            // Actualizar estilo del botón activo en el menú lateral
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('text-white', 'bg-slate-800/80', 'border-l-4', 'border-brand-gold');
-                btn.classList.add('text-slate-400', 'hover:bg-slate-800/40', 'hover:text-slate-200');
-                const icon = btn.querySelector('i');
-                icon.classList.remove('text-brand-gold');
-                icon.classList.add('text-slate-500');
+        // Función para cambiar el nodo seleccionado del Blueprint
+        function clickBlueprintNode(nodeId) {
+            // Remover estilos activos de todos los nodos del blueprint
+            document.querySelectorAll('.blueprint-node').forEach(node => {
+                node.classList.remove('blueprint-active');
             });
 
-            const activeBtn = document.getElementById(`btn-${tabId}`);
-            activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800/40', 'hover:text-slate-200');
-            activeBtn.classList.add('text-white', 'bg-slate-800/80', 'border-l-4', 'border-brand-gold');
-            const activeIcon = activeBtn.querySelector('i');
-            activeIcon.classList.remove('text-slate-500');
-            activeIcon.classList.add('text-brand-gold');
+            // Añadir clase activa al nodo seleccionado
+            const activeNode = document.getElementById(`bp-node-${nodeId}`);
+            if (activeNode) {
+                activeNode.classList.add('blueprint-active');
+            }
 
-            // Actualizar puntos indicadores inferiores
-            document.querySelectorAll('.indicator-dot').forEach(dot => {
-                dot.classList.remove('bg-brand-gold');
-                dot.classList.add('bg-slate-700');
-            });
-            const pureId = tabId.replace('tab-', '');
-            document.getElementById(`dot-${pureId}`).classList.add('bg-brand-gold');
-
-            // Actualizar índice actual
-            currentTabIdx = tabs.indexOf(tabId);
-        }
-
-        // Navegación de botones inferior
-        function nextTab() {
-            if (currentTabIdx < tabs.length - 1) {
-                currentTabIdx++;
-                switchTab(tabs[currentTabIdx]);
-            } else {
-                switchTab(tabs[0]); // Volver al inicio cíclicamente
+            // Inyectar detalles en la sidebar explicativa
+            const data = blueprintNodeData[nodeId];
+            if (data) {
+                document.getElementById('bp-det-title').textContent = data.title;
+                document.getElementById('bp-det-desc').textContent = data.desc;
             }
         }
 
-        function prevTab() {
-            if (currentTabIdx > 0) {
-                currentTabIdx--;
-                switchTab(tabs[currentTabIdx]);
+        // Función para inyectar y renderizar el slide activo
+        function renderSlide() {
+            const viewport = document.getElementById('slide-content-viewport');
+            const data = slideData[currentSlideIdx];
+
+            // Actualizar datos del slide en el contenedor
+            document.getElementById('slide-category').textContent = data.category;
+            document.getElementById('slide-subheader').textContent = data.subheader;
+            document.getElementById('slide-number').textContent = `${String(currentSlideIdx + 1).padStart(2, '0')} / ${String(slideData.length).padStart(2, '0')}`;
+
+            // Inyectar el HTML principal de contenido
+            viewport.innerHTML = `
+                <h2 class="font-display font-bold text-2xl md:text-3xl text-white mb-6 uppercase tracking-wide">
+                    ${data.title}
+                </h2>
+                <div class="flex-grow">
+                    ${data.content}
+                </div>
+            `;
+
+            // Forzar reflow para reiniciar animaciones CSS
+            viewport.classList.remove('fade-in-slide');
+            void viewport.offsetWidth;
+            viewport.classList.add('fade-in-slide');
+
+            // Renderizar indicadores de paginación (dots)
+            renderDots();
+        }
+
+        // Renderizar los puntos de paginación
+        function renderDots() {
+            const dotsContainer = document.getElementById('slide-dots');
+            dotsContainer.innerHTML = '';
+            slideData.forEach((_, idx) => {
+                const dot = document.createElement('span');
+                dot.className = `w-2 h-2 rounded-full transition-all ${idx === currentSlideIdx ? 'bg-brand-gold w-4' : 'bg-slate-700'}`;
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // Navegación de Diapositivas
+        function nextSlide() {
+            if (currentSlideIdx < slideData.length - 1) {
+                currentSlideIdx++;
             } else {
-                switchTab(tabs[tabs.length - 1]);
+                currentSlideIdx = 0; // Cíclico
+            }
+            renderSlide();
+        }
+
+        function prevSlide() {
+            if (currentSlideIdx > 0) {
+                currentSlideIdx--;
+            } else {
+                currentSlideIdx = slideData.length - 1; // Cíclico
+            }
+            renderSlide();
+        }
+
+        // Cambio de Modo de Visualización (Slide vs Scroll)
+        function setMode(mode) {
+            activeMode = mode;
+            const slideBtn = document.getElementById('view-mode-slide');
+            const scrollBtn = document.getElementById('view-mode-scroll');
+            const presentationLayout = document.getElementById('presentation-layout');
+            const scrollLayout = document.getElementById('scroll-layout');
+
+            if (mode === 'slide') {
+                // Actualizar Botones
+                slideBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all bg-brand-gold text-brand-navy shadow";
+                scrollBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200";
+                
+                // Actualizar Contenedor
+                presentationLayout.classList.remove('hidden');
+                scrollLayout.classList.add('hidden');
+                renderSlide();
+            } else {
+                // Actualizar Botones
+                slideBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200";
+                scrollBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all bg-brand-gold text-brand-navy shadow";
+                
+                // Actualizar Contenedor
+                presentationLayout.classList.add('hidden');
+                scrollLayout.classList.remove('hidden');
+                renderScrollContent();
             }
         }
 
-        // Función para cambiar de nodo explicativo en el Blueprint
-        function selectNode(nodeId) {
-            // Deseleccionar nodos activos
-            document.querySelectorAll('.node-btn').forEach(btn => {
-                btn.classList.remove('node-active');
+        // Renderizar todo el contenido en formato de Lectura Continua
+        function renderScrollContent() {
+            const container = document.getElementById('scroll-layout');
+            container.innerHTML = '';
+
+            slideData.forEach((slide, idx) => {
+                const section = document.createElement('section');
+                section.className = "bg-brand-slate border border-brand-border p-8 md:p-12 rounded-2xl space-y-6 relative";
+                section.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-brand-border/60 pb-4">
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="text-brand-gold font-bold uppercase tracking-wider">${slide.category}</span>
+                            <span class="text-slate-600">|</span>
+                            <span class="text-slate-400 font-semibold">${slide.subheader}</span>
+                        </div>
+                        <span class="text-xs font-mono font-bold text-slate-500">Sección ${String(idx + 1).padStart(2, '0')}</span>
+                    </div>
+                    <h2 class="font-display font-bold text-3xl text-white tracking-wide uppercase">
+                        ${slide.title}
+                    </h2>
+                    <div>
+                        ${slide.content}
+                    </div>
+                `;
+                container.appendChild(section);
             });
+        }
 
-            // Seleccionar el actual
-            const btn = document.getElementById(`node-${nodeId}`);
-            btn.classList.add('node-active');
+        // Habilitar controles del teclado para Modo Presentación (flechas izquierda/derecha)
+        document.addEventListener('keydown', (e) => {
+            if (activeMode === 'slide') {
+                if (e.key === 'ArrowRight') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            }
+        });
 
-            // Cambiar textos y detalles
-            const exp = nodeData[nodeId];
-            document.getElementById('node-exp-icon').innerHTML = exp.icon;
-            document.getElementById('node-exp-title').textContent = exp.title;
-            document.getElementById('node-exp-desc').textContent = exp.desc;
+        // Inicialización
+        window.onload = function() {
+            renderSlide();
         }
     </script>
 </body>
